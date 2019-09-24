@@ -1,9 +1,24 @@
 import java.util.ArrayList;
-import java.util.SplittableRandom;
 
 public class Readability {
     public static void main(String[] args) {
-        ArrayList<Word> words = FileIO.readSyllablesFile("data/syllables.txt");
+        //testSyllableMethod();
+
+        String test = TextLib.readFileAsString("data/Texts/AllTexts/Amazon-adv.txt");
+        //System.out.println(test);
+
+        ArrayList<String> sentences = TextLib.splitIntoSentences(test);
+
+        for (String sentence : sentences) {
+            System.out.println(sentence.length() + ": " + sentence);
+        }
+
+        // TODO:  Break each sentence into words.
+        // TODO:  Force to lower-case and strip out all puctuation for doing syllable counts.
+    }
+
+    private static void testSyllableMethod() {
+        ArrayList<Word> words = TextLib.readSyllablesFile("data/syllables.txt");
 
         double right = 0;
         for (Word w : words) {

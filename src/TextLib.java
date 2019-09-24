@@ -1,30 +1,24 @@
 import javafx.concurrent.Worker;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.text.BreakIterator;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Scanner;
 
-public class FileIO {
-    public static void main(String[] args) {
-
-        ArrayList<Word> words = readSyllablesFile("data/syllables.txt");
-
-        for (Word w : words) {
-            System.out.println(w.getWord() + " : " + w.getSyllables());
-        }
-
-    }
+public class TextLib {
 
     public static String readFileAsString(String filename) {
         Scanner scanner;
         StringBuilder output = new StringBuilder();
 
         try {
-            scanner = new Scanner(new FileReader(filename));
+            scanner = new Scanner(new FileInputStream(filename), "UTF-8");
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
-                output.append(line.trim());
+                output.append(line.trim()+"\n");
             }
 
             scanner.close();
@@ -34,6 +28,30 @@ public class FileIO {
         }
 
         return output.toString();
+    }
+
+    public static ArrayList<String> splitIntoSentences(String text) {
+        ArrayList<String> output = new ArrayList<>();
+
+        Locale locale = Locale.US;
+        BreakIterator breakIterator = BreakIterator.getSentenceInstance(locale);
+        breakIterator.setText(text);
+
+        int prevIndex = 0;
+        int boundaryIndex = breakIterator.first();
+        while(boundaryIndex != BreakIterator.DONE) {
+            String sentence = text.substring(prevIndex, boundaryIndex).trim();
+            if (sentence.length()>0)
+                output.add(sentence);
+            prevIndex = boundaryIndex;
+            boundaryIndex = breakIterator.next();
+        }
+
+        String sentence = text.substring(prevIndex).trim();
+        if (sentence.length()>0)
+            output.add(sentence);
+
+        return output;
     }
 
     public static ArrayList<Word> readSyllablesFile(String filename) {
