@@ -53,4 +53,6 @@ public class Readability {
     private static boolean isVowel(String letter) {
         return "aeiouy".contains(letter);
     }
+
 }
+

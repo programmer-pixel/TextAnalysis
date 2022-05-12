@@ -1,8 +1,8 @@
 public class Word {
     private String word;
-    private int syllables;
+    private double syllables;
 
-    public Word(String word, int syllables) {
+    public Word(String word, double syllables) {
         this.word = word;
         this.syllables = syllables;
     }
@@ -15,7 +15,7 @@ public class Word {
         this.word = word;
     }
 
-    public int getSyllables() {
+    public double getSyllables() {
         return syllables;
     }
 
